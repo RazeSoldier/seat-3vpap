@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'pap' => '出勤分',
+    'corpList' => '军团列表',
+    'myPap' => '我的出勤',
+    'linked-totalPap' => '总出勤分（包括已链接的角色）',
+    'totalPap' => '总出勤分',
+    'linked-monthPap' => '今月出勤分（包括已链接的角色）',
+    'monthPap' => '今月出勤分',
+    'link-mypap' => '查看我的PAP详情',
+    'mypap-detail' => '我的出勤情况',
+    'pap-title-suffix' => '的出勤',
+    'pap-fleetNote' => '舰队备注',
+    'pap-fleetTime' => '统计时间',
+    'pap-fleetFC' => '带队指挥',
+    'pap-fleetType' => '舰队类型',
+    'pap-characterName' => '角色名',
+    'alliance' => '联盟',
+    'corporation' => '军团',
+    'member-pap' => '成员出勤',
+    'month-ping' => '本月集结',
+    'month-pingcount' => '本月集结数',
+    'linked-count' => '绑定的角色数',
+];

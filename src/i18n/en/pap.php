@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'pap' => 'PAP',
+    'corpList' => 'Corporation List',
+    'myPap' => 'My PAP',
+    'linked-totalPap' => 'Total PAP (include linked character)',
+    'totalPap' => 'Total PAP',
+    'linked-monthPap' => 'Monthly PAP (include linked character)',
+    'monthPap' => 'Monthly PAP',
+    'link-mypap' => 'See my PAP detail',
+    'mypap-detail' => 'My PAP detail',
+    'pap-title-suffix' => ' PAP',
+    'pap-fleetNote' => 'Fleet Note',
+    'pap-fleetTime' => 'Time',
+    'pap-fleetFC' => 'FC',
+    'pap-fleetType' => 'Fleet Type',
+    'pap-characterName' => 'Character Name',
+    'alliance' => 'Alliance',
+    'corporation' => 'Corporation',
+    'member-pap' => 'Member PAP',
+    'month-ping' => 'Ping of This Month',
+    'month-pingcount' => 'Ping Count of This Month',
+    'linked-count' => 'Linked Character Count',
+];
