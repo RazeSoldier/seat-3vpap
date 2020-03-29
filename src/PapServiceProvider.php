@@ -3,6 +3,7 @@
 namespace RazeSoldier\Seat3VPap;
 
 use Illuminate\Support\ServiceProvider;
+use RazeSoldier\Seat3VPap\Jobs\UpdateCorpPap;
 
 class PapServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,7 @@ class PapServiceProvider extends ServiceProvider
         $this->addView();
         $this->addTranslations();
         $this->addConfig();
+        $this->addCommand();
     }
 
     /**
@@ -42,5 +44,10 @@ class PapServiceProvider extends ServiceProvider
     private function addConfig()
     {
         $this->mergeConfigFrom(__DIR__ . '/Config/pap.permissions.php', 'web.permissions');
+    }
+
+    private function addCommand()
+    {
+        $this->commands([UpdateCorpPap::class]);
     }
 }

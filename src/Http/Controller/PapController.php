@@ -3,6 +3,7 @@
 namespace RazeSoldier\Seat3VPap\Http\Controller;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 use RazeSoldier\Seat3VPap\Model\Pap;
 use Seat\Eveapi\Models\{
     Character\CharacterInfo,
@@ -24,19 +25,7 @@ class PapController extends Controller
             $corpList = CorporationInfo::all();
             /** @var CorporationInfo $corp */
             foreach ($corpList as $corp) {
-                foreach ($corp->characters as $character) {
-                    // Filter out not-main character
-                    if (!$this->isMainCharacter($character->character_id)) {
-                        continue;
-                    }
-
-                    $group = User::find($character->character_id)->group;
-                    $users = $group->users->all();
-                    $corp->point = 0;
-                    foreach ($users as $user) {
-                        $corp->point += Pap::where('characterName', $user->name)->sum('PAP');
-                    }
-                }
+                $corp->point = Cache::get("pap::corp-{$corp->corporation_id}");
             }
             $corpList = $corpList->all();
             usort($corpList, function ($a, $b) {
