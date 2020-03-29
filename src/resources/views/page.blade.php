@@ -22,7 +22,11 @@
                 @foreach($corpList as $corp)
                     <tr>
                         <td><a href="{{route('pap.corp', ['id' => $corp->corporation_id])}}">{{$corp->name}}</a></td>
-                        <td>{{$corp->alliance()->getResults()->name}}</td>
+                        @if ($corp->alliance()->getResults() !== null)
+                            <td>{{$corp->alliance()->getResults()->name}}</td>
+                        @else
+                            <td></td>
+                        @endif
                         <td>{{$corp->point}}</td>
                     </tr>
                 @endforeach
