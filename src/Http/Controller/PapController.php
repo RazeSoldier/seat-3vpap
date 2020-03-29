@@ -44,7 +44,7 @@ class PapController extends Controller
             'totalPap' => Pap::where('characterName', auth()->user()->name)->sum('PAP'),
             'monthPap' => Pap::where([
                 ['characterName', auth()->user()->name],
-                ['fleetTime', '>', date('Y-m-d 00:00:00')]
+                ['fleetTime', '>', date('Y-m-01 00:00:00')]
             ])->sum('PAP'),
             'gid' => auth()->user()->group_id,
             'corpList' => $corpList,
@@ -132,7 +132,7 @@ class PapController extends Controller
         foreach ($users as $user) {
             $point += Pap::where([
                 ['characterName', $user->name],
-                ['fleetTime', '>', date('Y-m-d 00:00:00')]
+                ['fleetTime', '>', date('Y-m-01 00:00:00')]
             ])->sum('PAP');
         }
         return $point;
