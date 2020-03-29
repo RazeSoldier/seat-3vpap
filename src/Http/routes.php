@@ -7,7 +7,7 @@ Route::group([
     'namespace' => 'RazeSoldier\Seat3VPap\Http\Controller',
     'middleware' => ['web', 'auth', 'locale', 'bouncer:srp.request'],
 ], function () {
-    Route::get('/', 'PapController@showMainPage');
+    Route::get('/', 'PapController@showMainPage')->name('pap.home');
     Route::get('/group/{id}', 'PapController@showGroupPap')->name('pap.pap');
     Route::get('/corporation/{id}', 'PapController@showCorporation')->name('pap.corp');
 });

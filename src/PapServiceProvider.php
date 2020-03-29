@@ -44,6 +44,7 @@ class PapServiceProvider extends AbstractSeatPlugin
     private function addConfig()
     {
         $this->mergeConfigFrom(__DIR__ . '/Config/pap.permissions.php', 'web.permissions');
+        $this->mergeConfigFrom(__DIR__ . '/Config/pap.sidebar.php', 'package.sidebar');
     }
 
     private function addCommand()
@@ -88,6 +89,6 @@ class PapServiceProvider extends AbstractSeatPlugin
      */
     public function getVersion(): string
     {
-        return '0.2';
+        return '0.2.1';
     }
 }
