@@ -159,10 +159,14 @@ class PapController extends Controller
 
     private function getMainCharacter($gid) :? CharacterInfo
     {
-        $uid = UserSetting::where([
+        $userSetting = UserSetting::where([
             'group_id' => $gid,
             'name' => 'main_character_id'
-        ])->first()->value;
+        ])->first();
+        if ($userSetting === null) {
+            return null;
+        }
+        $uid = $userSetting->value;
         if ($uid === null) {
             return null;
         }
@@ -171,10 +175,14 @@ class PapController extends Controller
 
     private function isMainCharacter($uid) : bool
     {
-        $mainId = UserSetting::where([
+        $userSetting = UserSetting::where([
             'group_id' => User::find($uid)->group_id,
             'name' => 'main_character_id'
-        ])->first()->value;
+        ])->first();
+        if ($userSetting === null) {
+            return false;
+        }
+        $mainId = $userSetting->value;
         return $uid == $mainId;
     }
 }
