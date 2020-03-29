@@ -19,30 +19,35 @@ class PapController extends Controller
 {
     public function showMainPage()
     {
-        $corpList = CorporationInfo::all();
-        /** @var CorporationInfo $corp */
-        foreach ($corpList as $corp) {
-            foreach ($corp->characters as $character) {
-                // Filter out not-main character
-                if (!$this->isMainCharacter($character->character_id)) {
-                    continue;
-                }
+        $isAdmin = auth()->user()->has('pap.admin', false);
+        if ($isAdmin) {
+            $corpList = CorporationInfo::all();
+            /** @var CorporationInfo $corp */
+            foreach ($corpList as $corp) {
+                foreach ($corp->characters as $character) {
+                    // Filter out not-main character
+                    if (!$this->isMainCharacter($character->character_id)) {
+                        continue;
+                    }
 
-                $group = User::find($character->character_id)->group;
-                $users = $group->users->all();
-                $corp->point = 0;
-                foreach ($users as $user) {
-                    $corp->point += Pap::where('characterName', $user->name)->sum('PAP');
+                    $group = User::find($character->character_id)->group;
+                    $users = $group->users->all();
+                    $corp->point = 0;
+                    foreach ($users as $user) {
+                        $corp->point += Pap::where('characterName', $user->name)->sum('PAP');
+                    }
                 }
             }
+            $corpList = $corpList->all();
+            usort($corpList, function ($a, $b) {
+                if ($a->point === $b->point) {
+                    return 0;
+                }
+                return ($a->point > $b->point) ? -1 : 1;
+            });
+        } else {
+            $corpList = [];
         }
-        $corpList = $corpList->all();
-        usort($corpList, function ($a, $b) {
-            if ($a->point === $b->point) {
-                return 0;
-            }
-            return ($a->point > $b->point) ? -1 : 1;
-        });
         return view('pap::page', [
             'isAdmin' => auth()->user()->has('pap.admin', false),
             'linkedTotalPap' => $this->getLinkedTotalPap(),
