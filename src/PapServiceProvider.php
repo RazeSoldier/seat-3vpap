@@ -2,10 +2,10 @@
 
 namespace RazeSoldier\Seat3VPap;
 
-use Illuminate\Support\ServiceProvider;
 use RazeSoldier\Seat3VPap\Jobs\UpdateCorpPap;
+use Seat\Services\AbstractSeatPlugin;
 
-class PapServiceProvider extends ServiceProvider
+class PapServiceProvider extends AbstractSeatPlugin
 {
     /**
      * Bootstrap the application services.
@@ -49,5 +49,45 @@ class PapServiceProvider extends ServiceProvider
     private function addCommand()
     {
         $this->commands([UpdateCorpPap::class]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getName(): string
+    {
+        return 'PAP';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPackageRepositoryUrl(): string
+    {
+        return 'https://github.com/RazeSoldier/seat-3vpap';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPackagistPackageName(): string
+    {
+        return 'seat-3vpap';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPackagistVendorName(): string
+    {
+        return 'razesoldier';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getVersion(): string
+    {
+        return '0.2';
     }
 }
