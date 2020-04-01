@@ -29,7 +29,10 @@ class UpdateCorpPap extends Command
                 $group = User::find($character->character_id)->group;
                 $users = $group->users->all();
                 foreach ($users as $user) {
-                    $totalPoint += Pap::where('characterName', $user->name)->sum('PAP');
+                    $totalPoint += Pap::where([
+                        ['characterName', $user->name],
+                        ['fleetTime', '>', date('Y-m-01 00:00:00')]
+                    ])->sum('PAP');
                 }
             }
             Cache::forever("pap::corp-{$corp->corporation_id}", $totalPoint);
