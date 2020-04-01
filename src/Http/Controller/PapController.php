@@ -48,7 +48,7 @@ class PapController extends Controller
             ])->sum('PAP'),
             'gid' => auth()->user()->group_id,
             'corpList' => $corpList,
-            'pingCount' => Pap::select('fleetTime')->distinct()->get()->count(),
+            'pingCount' => Pap::select('fleetTime')->where('fleetTime', '>', date('Y-m-01 00:00:00'))->distinct()->get()->count(),
         ]);
     }
 
