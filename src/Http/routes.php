@@ -10,4 +10,6 @@ Route::group([
     Route::get('/', 'PapController@showMainPage')->name('pap.home');
     Route::get('/group/{id}', 'PapController@showGroupPap')->name('pap.pap');
     Route::get('/corporation/{id}', 'PapController@showCorporation')->name('pap.corp');
+    Route::get('/fleet-stat', 'FleetStatController@showHome')->name('pap.stat')->middleware('bouncer:pap.admin');
+    Route::post('/post-stat', 'FleetStatController@postStat')->name('pap.post-stat')->middleware('bouncer:pap.admin');
 });

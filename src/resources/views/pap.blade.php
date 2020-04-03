@@ -26,13 +26,13 @@
                     <td>{{$fleet->fleetFC}}</td>
                     @switch($fleet->fleetType)
                         @case('A')
-                            <td>联盟集结</td>
+                            <td>VVV&MSN联合作战</td>
+                            @break
+                        @case('B')
+                            <td>VVV/MSN联盟活动</td>
                             @break
                         @case('C')
-                            <td>钴蓝反收割</td>
-                            @break
-                        @case('T')
-                            <td>特纳反收割</td>
+                            <td>军团活动</td>
                             @break
                     @endswitch
                 </tr>

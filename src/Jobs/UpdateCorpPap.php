@@ -19,7 +19,9 @@ class UpdateCorpPap extends Command
         $corpList = CorporationInfo::all();
         /** @var CorporationInfo $corp */
         foreach ($corpList as $corp) {
-            $totalPoint = 0;
+            $aPoint = 0;
+            $bPoint = 0;
+            $cPoint = 0;
             foreach ($corp->characters as $character) {
                 // Filter out not-main character
                 if (!$this->isMainCharacter($character->character_id)) {
@@ -29,13 +31,26 @@ class UpdateCorpPap extends Command
                 $group = User::find($character->character_id)->group;
                 $users = $group->users->all();
                 foreach ($users as $user) {
-                    $totalPoint += Pap::where([
+                    $aPoint += Pap::where([
                         ['characterName', $user->name],
-                        ['fleetTime', '>', date('Y-m-01 00:00:00')]
+                        ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
+                        ['fleetType', 'A'],
+                    ])->sum('PAP');
+                    $bPoint += Pap::where([
+                        ['characterName', $user->name],
+                        ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
+                        ['fleetType', 'B'],
+                    ])->sum('PAP');
+                    $cPoint += Pap::where([
+                        ['characterName', $user->name],
+                        ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
+                        ['fleetType', 'C'],
                     ])->sum('PAP');
                 }
             }
-            Cache::forever("pap::corp-{$corp->corporation_id}", $totalPoint);
+            Cache::forever("pap::corp-{$corp->corporation_id}-a", $aPoint);
+            Cache::forever("pap::corp-{$corp->corporation_id}-b", $bPoint);
+            Cache::forever("pap::corp-{$corp->corporation_id}-c", $cPoint);
         }
     }
 
@@ -50,5 +65,11 @@ class UpdateCorpPap extends Command
         }
         $mainId = $userSetting->value;
         return $uid == $mainId;
+    }
+
+    private static function getLast30Days() : \DateTime
+    {
+        $date = new \DateTime('now', new \DateTimeZone('Asia/Shanghai'));
+        return $date->sub(new \DateInterval('P30D'));
     }
 }

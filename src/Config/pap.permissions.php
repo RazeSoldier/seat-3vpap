@@ -2,6 +2,9 @@
 
 return [
     'pap' => [
-        'admin'
+        'admin',
+        'aFC',
+        'bFC',
+        'cFC',
     ]
 ];
