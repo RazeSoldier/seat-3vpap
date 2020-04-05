@@ -110,10 +110,10 @@ class PapController extends Controller
             ];
         }
         usort($memberList, function ($a, $b) {
-            if ($a['pap'] === $b['pap']) {
+            if ($a['aPoint'] === $b['aPoint']) {
                 return 0;
             }
-            return ($a['pap'] > $b['pap']) ? -1 : 1;
+            return ($a['aPoint'] > $b['aPoint']) ? -1 : 1;
         });
         return view('pap::corp', [
             'title' => $corp->name . __('pap::pap.pap-title-suffix'),
