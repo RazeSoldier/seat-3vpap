@@ -36,7 +36,7 @@ class PapController extends Controller
                 if ($aPoint === $bPoint) {
                     return 0;
                 }
-                return ($a->aPoint > $b->aPoint) ? -1 : 1;
+                return ($aPoint > $bPoint) ? -1 : 1;
             });
         } else {
             $corpList = [];
