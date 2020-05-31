@@ -31,7 +31,9 @@ class PapController extends Controller
             }
             $corpList = $corpList->all();
             usort($corpList, function ($a, $b) {
-                if ($a->aPoint === $b->aPoint) {
+                $aPoint = $a->aPoint + $a->bPoint;
+                $bPoint = $b->aPoint + $b->bPoint;
+                if ($aPoint === $bPoint) {
                     return 0;
                 }
                 return ($a->aPoint > $b->aPoint) ? -1 : 1;
