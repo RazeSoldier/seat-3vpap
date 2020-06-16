@@ -2,7 +2,6 @@
 
 namespace RazeSoldier\Seat3VPap;
 
-use RazeSoldier\Seat3VPap\Jobs\Test;
 use RazeSoldier\Seat3VPap\Jobs\UpdateCorpPap;
 use Seat\Services\AbstractSeatPlugin;
 
