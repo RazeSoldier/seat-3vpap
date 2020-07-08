@@ -97,6 +97,11 @@ class PapController extends Controller
             $cPoint = 0;
             $linkedCount = 0;
             foreach ($users as $user) {
+                // User::character may be NULL because of unknown reason
+                // TODO: The logic should be changed to display the complete data
+                if ($user->character === null) {
+                    continue;
+                }
                 $aPoint += Pap::getCharacterMonthAPoint($user->character);
                 $bPoint += Pap::getCharacterMonthBPoint($user->character);
                 $cPoint += Pap::getCharacterMonthCPoint($user->character);
