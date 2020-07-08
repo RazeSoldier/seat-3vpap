@@ -128,6 +128,9 @@ class PapController extends Controller
         $users = $this->getLinkedUsers();
         $point = 0;
         foreach ($users as $user) {
+            if ($user->name === 'admin') {
+                continue;
+            }
             $point += Pap::getCharacterMonthAPoint(CharacterInfo::find($user->id));
         }
         return $point;
@@ -138,6 +141,9 @@ class PapController extends Controller
         $users = $this->getLinkedUsers();
         $point = 0;
         foreach ($users as $user) {
+            if ($user->name === 'admin') {
+                continue;
+            }
             $point += Pap::getCharacterMonthBPoint(CharacterInfo::find($user->id));
         }
         return $point;
@@ -148,6 +154,9 @@ class PapController extends Controller
         $users = $this->getLinkedUsers();
         $point = 0;
         foreach ($users as $user) {
+            if ($user->name === 'admin') {
+                continue;
+            }
             $point += Pap::getCharacterMonthCPoint(CharacterInfo::find($user->id));
         }
         return $point;
