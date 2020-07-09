@@ -69,7 +69,7 @@ class PapController extends Controller
         }
         return view('pap::pap', [
             'title' => $gid === auth()->user()->group_id ? __('pap::pap.myPap-title') : $this->getMainCharacter($gid)->name . __('pap::pap.pap-title-suffix'),
-            'fleets' => $paps,
+            'groupId' => $gid,
         ]);
     }
 
