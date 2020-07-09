@@ -3,41 +3,81 @@
 @section('title', $title)
 @section('page_header', $title)
 
+@push('head')
+    <!-- Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- element-ui -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+@endpush
+
 @section('full')
-    <div class="box-body">
-        <table id="srps" class="table table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>{{__('pap::pap.pap-characterName')}}</th>
-                    <th>{{__('pap::pap.pap-fleetNote')}}</th>
-                    <th>{{__('pap::pap.pap-fleetTime')}}</th>
-                    <th>{{__('pap::pap.pap')}}</th>
-                    <th>{{__('pap::pap.pap-fleetFC')}}</th>
-                    <th>{{__('pap::pap.pap-fleetType')}}</th>
-                </tr>
-            </thead>
-            <tbody>
-            @foreach($fleets as $fleet)
-                <tr>
-                    <td><span rel='id-to-name'>{{$fleet->characterName}}</span></td>
-                    <td><span rel='id-to-name'>{{$fleet->fleetNote}}</span></td>
-                    <td>{{$fleet->fleetTime}}</td>
-                    <td>{{$fleet->PAP}}</td>
-                    <td>{{$fleet->fleetFC}}</td>
-                    @switch($fleet->fleetType)
-                        @case('A')
-                            <td>VVV&MSN联合作战</td>
-                            @break
-                        @case('B')
-                            <td>VVV/MSN联盟活动</td>
-                            @break
-                        @case('C')
-                            <td>军团活动</td>
-                            @break
-                    @endswitch
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+    <div class="box-body" id="vue">
+        <show-my-pap></show-my-pap>
     </div>
 @endsection
+
+@push('javascript')
+    <script>
+        Vue.component('show-my-pap', {
+            template: '<div><el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" stripe>' +
+                '<el-table-column\n' +
+                '        prop="characterName"\n' +
+                '        label="角色名">' +
+                '</el-table-column>' +
+                '<el-table-column\n' +
+                '        prop="fleetNote"\n' +
+                '        label="舰队备注">' +
+                '</el-table-column>' +
+                '<el-table-column\n' +
+                '        prop="fleetTime"\n' +
+                '        label="统计时间">' +
+                '</el-table-column>' +
+                '<el-table-column\n' +
+                '        prop="PAP"\n' +
+                '        label="出勤分">' +
+                '</el-table-column>' +
+                '<el-table-column\n' +
+                '        prop="fleetFC"\n' +
+                '        label="带队指挥">' +
+                '</el-table-column>' +
+                '<el-table-column\n' +
+                '        prop="fleetType"\n' +
+                '        label="舰队类型">' +
+                '</el-table-column>' +
+                '</el-table>' +
+                '<el-pagination\n' +
+                '    layout="total, sizes, prev, pager, next, jumper"\n' +
+                '    current-page="currentPage"\n' +
+                '    @size-change="handleSizeChange"\n' +
+                '    @current-change="handleCurrentChange"\n' +
+                '    :page-size="pageSize"\n' +
+                '    :total="totalCount">\n' +
+                '</el-pagination></div>',
+            data() {
+                return {
+                    tableData: [],
+                    currentPage: 1,
+                    totalCount: 1,
+                    pageSize: 10
+                }
+            },
+            mounted() {
+                fetch('{{route('pap.api-group', ['id' => $groupId])}}').then(res => res.json()).then(json => {
+                    this.tableData = json;
+                    this.totalCount = json.length;
+                })
+            },
+            methods: {
+                handleSizeChange(val) {
+                    this.pageSize = val;
+                    this.currentPage = 1;
+                },
+                handleCurrentChange(val) {
+                    this.currentPage = val;
+                }
+            }
+        });
+        new Vue({el: '#vue'});
+    </script>
+@endpush
