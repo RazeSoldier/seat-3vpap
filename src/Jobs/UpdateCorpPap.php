@@ -27,12 +27,12 @@ class UpdateCorpPap extends Command
                 ['fleetType', 'A'],
             ])->sum('PAP');
             $bPoint = Pap::where([
-                ['characterName', $corp->name],
+                ['corpName', $corp->name],
                 ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
                 ['fleetType', 'B'],
             ])->sum('PAP');
             $cPoint = Pap::where([
-                ['characterName', $corp->name],
+                ['corpName', $corp->name],
                 ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
                 ['fleetType', 'C'],
             ])->sum('PAP');
