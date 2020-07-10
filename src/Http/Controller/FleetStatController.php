@@ -30,15 +30,18 @@ class FleetStatController
         return null;
     }
 
+    /**
+     * Route: /pap/api/post-stat
+     */
     public function postStat(Request $request)
     {
-        abort_if($request->members === null || $request->fleetNote === null
-            || $request->fleetType === null || $request->PAP === null, 403);
-        abort_if(!$this->checkPostRight($request->fleetType), 403);
-        $members = explode("\n", $request->members);
-        $job = new ImportFleetStat($members, $this->getMainCharacter(auth()->user()->group_id)->name, $request->PAP, $request->fleetType, $request->fleetNote);
+        abort_if($request->text === null || $request->notice === null
+            || $request->type === null || $request->point === null, 403);
+        abort_if(!$this->checkPostRight($request->type), 403);
+        $members = explode("\n", $request->text);
+        $job = new ImportFleetStat($members, $this->getMainCharacter(auth()->user()->group_id)->name, $request->point, $request->type, $request->notice);
         dispatch($job)->onQueue('high');
-        return back()->withInput();
+        return response()->json(['status' => 'ok']);
     }
 
     private function getMainCharacter($gid) :? CharacterInfo

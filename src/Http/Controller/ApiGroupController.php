@@ -10,7 +10,7 @@ use Seat\Web\Models\Group;
 class ApiGroupController extends Controller
 {
     /**
-     * Route: /api/group/{id}
+     * Route: /pap/api/group/{id}
      */
     public function getGroupPap(int $groupId)
     {

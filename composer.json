@@ -24,6 +24,7 @@
     "eveseat/services": "^3.0",
     "eveseat/eveapi": "^3.0",
     "eveseat/web": "^3.0",
-    "eveseat/eseye": "^1.0"
+    "eveseat/eseye": "^1.0",
+    "php": ">=7.3"
   }
 }
