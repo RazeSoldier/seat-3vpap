@@ -21,6 +21,8 @@
 @endsection
 
 @php
+$fleetMemberLabel = __('pap::stat.textinput-notice');
+$submitLabel = __('pap::stat.submit');
 switch ($fcRight) {
     case 'A':
         $typeOptions = <<<HTML
@@ -43,7 +45,7 @@ HTML;
 $template = <<<TEXT
 <el-form ref="form" :model="form" :rules="rules" label-width="80px">
   <el-form-item label="舰队成员" prop="text">
-    <el-input type="textarea" v-model="form.text" placeholder="粘贴舰队成员到这里" rows="20"></el-input>
+    <el-input type="textarea" v-model="form.text" placeholder="$fleetMemberLabel" rows="20"></el-input>
   </el-form-item>
   <el-form-item label="集结备注" prop="notice">
     <el-input v-model="form.notice"></el-input>
@@ -62,7 +64,7 @@ $template = <<<TEXT
     </el-select>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="submitForm('form')">统计</el-button>
+    <el-button type="primary" @click="submitForm('form')">$submitLabel</el-button>
   </el-form-item>
 </el-form>
 TEXT;
@@ -81,7 +83,7 @@ TEXT;
                         point: null,
                     },
                     rules: {
-                        text: [{required: true, message: '请粘贴舰队成员', trigger: 'blur'}],
+                        text: [{required: true, message: '{{$fleetMemberLabel}}', trigger: 'blur'}],
                         notice: [{required: true, message: '请填写备注', trigger: 'blur'}],
                         type: [{required: true, message: '请选择一个集结类型', trigger: 'change'}],
                         point: [{required: true, message: '请选择一个集结分', trigger: 'change'}],

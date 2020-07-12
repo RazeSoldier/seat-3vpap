@@ -23,27 +23,27 @@
             template: '<div><el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" stripe>' +
                 '<el-table-column\n' +
                 '        prop="characterName"\n' +
-                '        label="角色名">' +
+                '        label="{{__('pap::pap.pap-characterName')}}">' +
                 '</el-table-column>' +
                 '<el-table-column\n' +
                 '        prop="fleetNote"\n' +
-                '        label="舰队备注">' +
+                '        label="{{__('pap::pap.pap-fleetNote')}}">' +
                 '</el-table-column>' +
                 '<el-table-column\n' +
                 '        prop="fleetTime"\n' +
-                '        label="统计时间">' +
+                '        label="{{__('pap::pap.pap-fleetNote')}}">' +
                 '</el-table-column>' +
                 '<el-table-column\n' +
                 '        prop="PAP"\n' +
-                '        label="出勤分">' +
+                '        label="{{__('pap::pap.pap')}}">' +
                 '</el-table-column>' +
                 '<el-table-column\n' +
                 '        prop="fleetFC"\n' +
-                '        label="带队指挥">' +
+                '        label="{{__('pap::pap.pap-fleetFC')}}">' +
                 '</el-table-column>' +
                 '<el-table-column\n' +
                 '        prop="fleetType"\n' +
-                '        label="舰队类型">' +
+                '        label="{{__('pap::pap.pap-fleetType')}}">' +
                 '</el-table-column>' +
                 '</el-table>' +
                 '<el-pagination\n' +
