@@ -89,6 +89,7 @@ TEXT;
                         message: error,
                     });
                 }).then(json => {
+                    this.loading = true;
                     for (const jsonKey in json) {
                         if (!json.hasOwnProperty(jsonKey)) {
                             continue;
@@ -103,8 +104,8 @@ TEXT;
                         pap['sumPoint'] = pap['aPoint'] + pap['bPoint'] + pap['cPoint'];
                     }
                     this.tableData = json;
+                    this.loading = false;
                 });
-                this.loading = false;
             }
         });
         new Vue({el: '#vue'});
