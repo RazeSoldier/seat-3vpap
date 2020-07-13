@@ -2,16 +2,24 @@
 
 namespace RazeSoldier\Seat3VPap\Model;
 
-use Illuminate\Database\Eloquent\{
-    Collection,
-    Model
-};
+use Illuminate\Database\Eloquent\{Collection, Model, Relations\BelongsTo};
 use Seat\Eveapi\Models\Character\CharacterInfo;
 
+/**
+ * @property string characterName
+ * @property BelongsTo|null character
+ * @property string fleetType
+ * @property int PAP
+ */
 class Pap extends Model
 {
     protected $table = 'PAPs';
     public $timestamps = false;
+
+    public function character() :? BelongsTo
+    {
+        return $this->belongsTo(CharacterInfo::class, 'characterName', 'name');
+    }
 
     public static function getCharacterPap(CharacterInfo $characterInfo) : Collection
     {

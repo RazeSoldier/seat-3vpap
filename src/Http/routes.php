@@ -15,4 +15,6 @@ Route::group([
     Route::get('/api/group/{id}', 'ApiGroupController@getGroupPap')->name('pap.api-group')->middleware('api');
     Route::post('/api/post-stat', 'FleetStatController@postStat')->name('pap.post-stat')
         ->middleware(['api', 'bouncer:pap.admin']);
+    Route::get('/api/corp/{id}', 'ApiCorpController@getCorpMemberPap')->name('pap.get-corppap')
+        ->middleware(['api', 'bouncer:pap.admin']);
 });

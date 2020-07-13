@@ -73,6 +73,9 @@ class PapController extends Controller
         ]);
     }
 
+    /**
+     * Route: /pap/corporation/{id}
+     */
     public function showCorporation(int $id)
     {
         // Non-admin cannot access corporation's PAP record
@@ -82,49 +85,9 @@ class PapController extends Controller
 
         $corp = CorporationInfo::findOrFail($id); // Checks corporation exists
 
-        $memberList = [];
-        /** @var CharacterInfo $character */
-        foreach ($corp->characters as $character) {
-            // Filter out not-main character
-            if (!$this->isMainCharacter($character->character_id)) {
-                continue;
-            }
-
-            $group = User::find($character->character_id)->group;
-            $users = $group->users->all();
-            $aPoint = 0;
-            $bPoint = 0;
-            $cPoint = 0;
-            $linkedCount = 0;
-            foreach ($users as $user) {
-                // User::character may be NULL because of unknown reason
-                // TODO: The logic should be changed to display the complete data
-                if ($user->character === null) {
-                    continue;
-                }
-                $aPoint += Pap::getCharacterMonthAPoint($user->character);
-                $bPoint += Pap::getCharacterMonthBPoint($user->character);
-                $cPoint += Pap::getCharacterMonthCPoint($user->character);
-                ++$linkedCount;
-            }
-            $memberList[] = [
-                'name' => $character->name,
-                'aPoint' => $aPoint,
-                'bPoint' => $bPoint,
-                'cPoint' => $cPoint,
-                'groupId' => $group->id,
-                'linkedCount' => $linkedCount,
-            ];
-        }
-        usort($memberList, function ($a, $b) {
-            if ($a['aPoint'] === $b['aPoint']) {
-                return 0;
-            }
-            return ($a['aPoint'] > $b['aPoint']) ? -1 : 1;
-        });
         return view('pap::corp', [
             'title' => $corp->name . __('pap::pap.pap-title-suffix'),
-            'memberList' => $memberList,
+            'corpId' => $id,
         ]);
     }
 
@@ -189,18 +152,5 @@ class PapController extends Controller
             return null;
         }
         return CharacterInfo::find($uid);
-    }
-
-    private function isMainCharacter($uid) : bool
-    {
-        $userSetting = UserSetting::where([
-            'group_id' => User::find($uid)->group_id,
-            'name' => 'main_character_id'
-        ])->first();
-        if ($userSetting === null) {
-            return false;
-        }
-        $mainId = $userSetting->value;
-        return $uid == $mainId;
     }
 }
