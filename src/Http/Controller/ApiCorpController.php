@@ -54,6 +54,7 @@ class ApiCorpController extends Controller
                     $resp[$mc->name] = self::initGroupPapArray();
                     $resp[$mc->name]['characterName'] = $mc->name;
                     $resp[$mc->name]['groupId'] = $user->group->id;
+                    $resp[$mc->name]['characterLinkCount'] = $user->group->users->count();
                 }
                 self::sumPap($resp[$mc->name], $pap->fleetType, $pap->PAP);
             }

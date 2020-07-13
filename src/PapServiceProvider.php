@@ -89,6 +89,6 @@ class PapServiceProvider extends AbstractSeatPlugin
      */
     public function getVersion(): string
     {
-        return '0.3.10';
+        return '0.3.11';
     }
 }
