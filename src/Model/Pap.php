@@ -38,6 +38,17 @@ class Pap extends Model
         ])->get()->sum('PAP');
     }
 
+    /**
+     * Get the CTA count for the last 30 days
+     * @return int
+     */
+    public static function getCTACount() : int
+    {
+        return self::select('fleetTime')->where([
+            'fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')
+        ])->distinct()->get()->count();
+    }
+
     public static function getCharacterMonthAPoint(CharacterInfo $characterInfo) : int
     {
         return self::where([
