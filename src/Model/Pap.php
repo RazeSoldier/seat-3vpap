@@ -2,7 +2,10 @@
 
 namespace RazeSoldier\Seat3VPap\Model;
 
-use Illuminate\Database\Eloquent\{Collection, Model, Relations\BelongsTo};
+use Illuminate\Database\Eloquent\{
+    Model,
+    Relations\BelongsTo
+};
 use Seat\Eveapi\Models\Character\CharacterInfo;
 
 /**
@@ -21,24 +24,17 @@ class Pap extends Model
         return $this->belongsTo(CharacterInfo::class, 'characterName', 'name');
     }
 
-    public static function getCharacterPap(CharacterInfo $characterInfo) : Collection
-    {
-        return self::where('characterName', $characterInfo->name)->get();
-    }
-
-    public static function getCharacterMonthPap(CharacterInfo $characterInfo) : Collection
+    /**
+     * Get the character's PAP for the last 30 days
+     *
+     * @param CharacterInfo $characterInfo
+     * @return int PAP
+     */
+    public static function getCharacterPap(CharacterInfo $characterInfo) : int
     {
         return self::where([
             ['characterName', $characterInfo->name],
             ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
-        ])->get();
-    }
-
-    public static function getCharacterAPoint(CharacterInfo $characterInfo) : int
-    {
-        return self::where([
-            ['characterName', $characterInfo->name],
-            ['fleetType', 'A'],
         ])->get()->sum('PAP');
     }
 
@@ -51,28 +47,12 @@ class Pap extends Model
         ])->get()->sum('PAP');
     }
 
-    public static function getCharacterBPoint(CharacterInfo $characterInfo) : int
-    {
-        return self::where([
-            ['characterName', $characterInfo->name],
-            ['fleetType', 'B'],
-        ])->get()->sum('PAP');
-    }
-
     public static function getCharacterMonthBPoint(CharacterInfo $characterInfo) : int
     {
         return self::where([
             ['characterName', $characterInfo->name],
             ['fleetType', 'B'],
             ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
-        ])->get()->sum('PAP');
-    }
-
-    public static function getCharacterCPoint(CharacterInfo $characterInfo) : int
-    {
-        return self::where([
-            ['characterName', $characterInfo->name],
-            ['fleetType', 'C'],
         ])->get()->sum('PAP');
     }
 
