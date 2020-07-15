@@ -3,8 +3,6 @@
 return [
     'pap' => [
         'admin',
-        'aFC',
-        'bFC',
-        'cFC',
+        'FC',
     ]
 ];

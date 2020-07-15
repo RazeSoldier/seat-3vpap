@@ -15,16 +15,14 @@ class ImportFleetStat extends Info
     private $members;
     private $fcName;
     private $pap;
-    private $fleetType;
     private $fleetNote;
     public $tries = 4;
 
-    public function __construct(array $members, string $fcName, int $pap, string $fleetType, string $fleetNote)
+    public function __construct(array $members, string $fcName, int $pap, string $fleetNote)
     {
         $this->members = $members;
         $this->fcName = $fcName;
         $this->pap = $pap;
-        $this->fleetType = $fleetType;
         $this->fleetNote = $fleetNote;
         parent::__construct();
     }
@@ -66,7 +64,6 @@ class ImportFleetStat extends Info
                 $papStore->PAP = $this->pap;
                 $papStore->fleetFC = $this->fcName;
                 $papStore->fleetTime = $time;
-                $papStore->fleetType = $this->fleetType;
                 $papStore->fleetNote = $this->fleetNote;
                 $papStore->save();
             }

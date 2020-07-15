@@ -20,7 +20,7 @@ return [
                 'label' => 'pap::stat.fleet-stat',
                 'icon' => 'fa-key',
                 'route' => 'pap.stat',
-                'permission' => 'pap.admin',
+                'permission' => 'pap.FC',
             ],
         ],
     ],

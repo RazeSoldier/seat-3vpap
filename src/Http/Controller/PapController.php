@@ -70,11 +70,6 @@ class PapController extends Controller
      */
     public function showCorporation(int $id)
     {
-        // Non-admin cannot access corporation's PAP record
-        if (!auth()->user()->has('pap.admin', false)) {
-            abort(404);
-        }
-
         $corp = CorporationInfo::findOrFail($id); // Checks corporation exists
 
         return view('pap::corp', [

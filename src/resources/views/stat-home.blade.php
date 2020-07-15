@@ -23,25 +23,6 @@
 @php
 $fleetMemberLabel = __('pap::stat.textinput-notice');
 $submitLabel = __('pap::stat.submit');
-switch ($fcRight) {
-    case 'A':
-        $typeOptions = <<<HTML
-<el-option label="VVV&MSN联合作战" value="A"></el-option>
-<el-option label="VVV/MSN联盟活动" value="B"></el-option>
-<el-option label="军团活动" value="C"></el-option>
-HTML;
-        break;
-    case 'B':
-        $typeOptions = <<<HTML
-<el-option label="VVV/MSN联盟活动" value="B"></el-option>
-<el-option label="军团活动" value="C"></el-option>
-HTML;
-        break;
-    case 'C':
-        $typeOptions = <<<HTML
-<el-option label="军团活动" value="C"></el-option>
-HTML;
-}
 $template = <<<TEXT
 <el-form ref="form" :model="form" :rules="rules" label-width="80px">
   <el-form-item label="舰队成员" prop="text">
@@ -50,12 +31,7 @@ $template = <<<TEXT
   <el-form-item label="集结备注" prop="notice">
     <el-input v-model="form.notice"></el-input>
   </el-form-item>
-  <el-form-item label="集结类型" prop="type">
-    <el-select v-model="form.type">
-      $typeOptions
-    </el-select>
-  </el-form-item>
-    <el-form-item label="集结分" prop="point">
+  <el-form-item label="集结分" prop="point">
     <el-select v-model="form.point">
       <el-option label="1" value="1"></el-option>
       <el-option label="2" value="2"></el-option>
@@ -79,13 +55,11 @@ TEXT;
                     form: {
                         text: '',
                         notice: '',
-                        type: '',
                         point: null,
                     },
                     rules: {
                         text: [{required: true, message: '{{$fleetMemberLabel}}', trigger: 'blur'}],
                         notice: [{required: true, message: '请填写备注', trigger: 'blur'}],
-                        type: [{required: true, message: '请选择一个集结类型', trigger: 'change'}],
                         point: [{required: true, message: '请选择一个集结分', trigger: 'change'}],
                     }
                 }
