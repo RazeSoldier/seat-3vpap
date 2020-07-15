@@ -44,60 +44,9 @@ class Pap extends Model
      */
     public static function getCTACount() : int
     {
-        return self::select('fleetTime')->where([
+        return self::select('fleetTime')->where(
             'fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')
-        ])->distinct()->get()->count();
-    }
-
-    public static function getCharacterMonthAPoint(CharacterInfo $characterInfo) : int
-    {
-        return self::where([
-            ['characterName', $characterInfo->name],
-            ['fleetType', 'A'],
-            ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
-        ])->get()->sum('PAP');
-    }
-
-    public static function getCharacterMonthBPoint(CharacterInfo $characterInfo) : int
-    {
-        return self::where([
-            ['characterName', $characterInfo->name],
-            ['fleetType', 'B'],
-            ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
-        ])->get()->sum('PAP');
-    }
-
-    public static function getCharacterMonthCPoint(CharacterInfo $characterInfo) : int
-    {
-        return self::where([
-            ['characterName', $characterInfo->name],
-            ['fleetType', 'C'],
-            ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
-        ])->get()->sum('PAP');
-    }
-
-    public static function getMonthAPingCount() : int
-    {
-        return self::select('fleetTime')->where([
-            ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
-            ['fleetType', 'A'],
-        ])->distinct()->get()->count();
-    }
-
-    public static function getMonthBPingCount() : int
-    {
-        return self::select('fleetTime')->where([
-            ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
-            ['fleetType', 'B'],
-        ])->distinct()->get()->count();
-    }
-
-    public static function getMonthCPingCount() : int
-    {
-        return self::select('fleetTime')->where([
-            ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
-            ['fleetType', 'C'],
-        ])->distinct()->get()->count();
+        )->distinct()->get()->count();
     }
 
     private static function getLast30Days() : \DateTime

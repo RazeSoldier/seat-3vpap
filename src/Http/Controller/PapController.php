@@ -25,32 +25,24 @@ class PapController extends Controller
             $corpList = CorporationInfo::all();
             /** @var CorporationInfo $corp */
             foreach ($corpList as $corp) {
-                $corp->aPoint = Cache::get("pap::corp-{$corp->corporation_id}-a");
-                $corp->bPoint = Cache::get("pap::corp-{$corp->corporation_id}-b");
-                $corp->cPoint = Cache::get("pap::corp-{$corp->corporation_id}-c");
+                $corp->point = Cache::get("pap::corp-{$corp->corporation_id}-pap");
             }
             $corpList = $corpList->all();
             usort($corpList, function ($a, $b) {
-                $aPoint = $a->aPoint + $a->bPoint;
-                $bPoint = $b->aPoint + $b->bPoint;
-                if ($aPoint === $bPoint) {
+                if ($a->point === $b->point) {
                     return 0;
                 }
-                return ($aPoint > $bPoint) ? -1 : 1;
+                return ($a->point > $b->point) ? -1 : 1;
             });
         } else {
             $corpList = [];
         }
         return view('pap::page', [
             'isAdmin' => auth()->user()->has('pap.admin', false),
-            'aPap' => $this->getLinkedMonthAPoint(),
-            'bPap' => $this->getLinkedMonthBPoint(),
-            'cPap' => $this->getLinkedMonthCPoint(),
+            'point' => $this->getGroupPap(),
             'gid' => auth()->user()->group_id,
             'corpList' => $corpList,
-            'aPing' => Pap::getMonthAPingCount(),
-            'bPing' => Pap::getMonthBPingCount(),
-            'cPing' => Pap::getMonthCPingCount(),
+            'ctaCount' => Pap::getCTACount(),
         ]);
     }
 
@@ -91,7 +83,7 @@ class PapController extends Controller
         ]);
     }
 
-    private function getLinkedMonthAPoint() : int
+    private function getGroupPap() : int
     {
         $users = $this->getLinkedUsers();
         $point = 0;
@@ -99,33 +91,7 @@ class PapController extends Controller
             if ($user->name === 'admin') {
                 continue;
             }
-            $point += Pap::getCharacterMonthAPoint(CharacterInfo::find($user->id));
-        }
-        return $point;
-    }
-
-    private function getLinkedMonthBPoint() : int
-    {
-        $users = $this->getLinkedUsers();
-        $point = 0;
-        foreach ($users as $user) {
-            if ($user->name === 'admin') {
-                continue;
-            }
-            $point += Pap::getCharacterMonthBPoint(CharacterInfo::find($user->id));
-        }
-        return $point;
-    }
-
-    private function getLinkedMonthCPoint() : int
-    {
-        $users = $this->getLinkedUsers();
-        $point = 0;
-        foreach ($users as $user) {
-            if ($user->name === 'admin') {
-                continue;
-            }
-            $point += Pap::getCharacterMonthCPoint(CharacterInfo::find($user->id));
+            $point += Pap::getCharacterPap(CharacterInfo::find($user->id));
         }
         return $point;
     }

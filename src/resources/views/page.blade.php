@@ -15,9 +15,7 @@
                 <tr>
                     <th>{{__('pap::pap.corporation')}}</th>
                     <th>{{__('pap::pap.alliance')}}</th>
-                    <th>{{__('pap::pap.aPoint')}}</th>
-                    <th>{{__('pap::pap.bPoint')}}</th>
-                    <th>A + B</th>
+                    <th>{{__('pap::pap.pap')}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -29,9 +27,7 @@
                         @else
                             <td></td>
                         @endif
-                        <td>{{$corp->aPoint}}</td>
-                        <td>{{$corp->bPoint}}</td>
-                        <td>{{$corp->aPoint + $corp->bPoint}}</td>
+                        <td>{{$corp->point}}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -50,27 +46,8 @@
         <div class="box-body">
             <table class="table table-condensed">
                 <tr>
-                    <th class="bg-primary"><label class="label pull-right" style="font-size: 100%">A</label></th>
-                    <th class="bg-white"><label id="linkedTotalPap">{{$aPap}}</label></th>
-                </tr>
-                <tr>
-                    <th class="bg-primary"><label class="label pull-right" style="font-size: 100%">B</label></th>
-                    <th class="bg-white"><label id="linkedTotalPap">{{$bPap}}</label></th>
-                </tr>
-                <tr>
-                    <th class="bg-primary"><label class="label pull-right" style="font-size: 100%">C</label></th>
-                    <th class="bg-white"><label id="linkedTotalPap">{{$cPap}}</label></th>
-                </tr>
-                <tr>
-                    <th class="bg-primary"><label class="label pull-right" style="font-size: 100%">A + B</label></th>
-                    <th class="bg-white"><label id="linkedTotalPap">{{$aPap + $bPap}}</label></th>
-                </tr>
-                <tr>
-                    <th class="bg-primary"><label class="label pull-right" style="font-size: 100%">A + B + C</label></th>
-                    <th class="bg-white"><label id="linkedTotalPap">{{$aPap + $bPap + $cPap}}</label></th>
-                </tr>
-                <tr>
-                    <th class="bg-white"><small>注：A分指VVV&MSN联合作战，B分指VVV/MSN联盟活动，C分指军团活动</small></th>
+                    <th class="bg-primary"><label class="label pull-right" style="font-size: 100%">PAP</label></th>
+                    <th class="bg-white"><label id="linkedTotalPap">{{$point}}</label></th>
                 </tr>
             </table>
         </div>
@@ -83,16 +60,8 @@
         <div class="box-body">
             <table class="table table-condensed">
                 <tr>
-                    <th class="bg-primary"><label class="label pull-right" style="font-size: 100%">A</label></th>
-                    <th class="bg-white"><label id="pingCount">{{$aPing}}</label></th>
-                </tr>
-                <tr>
-                    <th class="bg-primary"><label class="label pull-right" style="font-size: 100%">B</label></th>
-                    <th class="bg-white"><label id="pingCount">{{$bPing}}</label></th>
-                </tr>
-                <tr>
-                    <th class="bg-primary"><label class="label pull-right" style="font-size: 100%">A + B</label></th>
-                    <th class="bg-white"><label id="pingCount">{{$aPing + $bPing}}</label></th>
+                    <th class="bg-primary"><label class="label pull-right" style="font-size: 100%">Count</label></th>
+                    <th class="bg-white"><label id="pingCount">{{$ctaCount}}</label></th>
                 </tr>
             </table>
         </div>

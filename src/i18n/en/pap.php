@@ -16,7 +16,7 @@ return [
     'alliance' => 'Alliance',
     'corporation' => 'Corporation',
     'member-pap' => 'Member PAP',
-    'month-ping' => 'Ping of Last 30 days',
+    'month-ping' => 'CTA of Last 30 days',
     'linked-count' => 'Linked Character Count',
     'aPoint' => 'A Point',
     'bPoint' => 'B Point',

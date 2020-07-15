@@ -21,24 +21,11 @@ class UpdateCorpPap extends Command
         $corpList = CorporationInfo::all();
         /** @var CorporationInfo $corp */
         foreach ($corpList as $corp) {
-            $aPoint = Pap::where([
+            $point = Pap::where([
                 ['corpName', $corp->name],
                 ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
-                ['fleetType', 'A'],
             ])->sum('PAP');
-            $bPoint = Pap::where([
-                ['corpName', $corp->name],
-                ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
-                ['fleetType', 'B'],
-            ])->sum('PAP');
-            $cPoint = Pap::where([
-                ['corpName', $corp->name],
-                ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
-                ['fleetType', 'C'],
-            ])->sum('PAP');
-            Cache::forever("pap::corp-{$corp->corporation_id}-a", $aPoint);
-            Cache::forever("pap::corp-{$corp->corporation_id}-b", $bPoint);
-            Cache::forever("pap::corp-{$corp->corporation_id}-c", $cPoint);
+            Cache::forever("pap::corp-{$corp->corporation_id}-pap", $point);
         }
     }
 
