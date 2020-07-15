@@ -26,11 +26,11 @@ $template = <<<TEXT
     :data="tableData"
     v-loading="loading"
     stripe
-    :default-sort = "{prop: 'aplusb', order: 'descending'}">
+    :default-sort = "{prop: 'point', order: 'descending'}">
     <el-table-column
         prop="characterName"
         label="$characterNameLabel"
-        width="180"
+        width="210"
         sortable>
         <template slot-scope="scope">
             <el-link :href="scope.row.link" type="primary" :disabled="scope.row.noesi">{{ scope.row.characterName }}</el-link>
@@ -43,30 +43,10 @@ $template = <<<TEXT
         sortable>
     </el-table-column>
     <el-table-column
-        prop="aPoint"
-        label="A"
-        width="60">
-    </el-table-column>
-    <el-table-column
-        prop="bPoint"
-        label="B"
-        width="60">
-    </el-table-column>
-    <el-table-column
-        prop="cPoint"
-        label="C"
-        width="60">
-    </el-table-column>
-    <el-table-column
-        prop="aplusb"
-        label="A + B"
-        width="80"
+        prop="point"
+        label="PAP"
+        width="auto"
         sortable>
-    </el-table-column>
-    <el-table-column
-        prop="sumPoint"
-        label="A + B + C"
-        width="auto">
     </el-table-column>
 </el-table>
 TEXT;
@@ -100,8 +80,6 @@ TEXT;
                         } else {
                             pap['link'] = '/pap/group/' + pap.groupId;
                         }
-                        pap['aplusb'] = pap['aPoint'] + pap['bPoint'];
-                        pap['sumPoint'] = pap['aPoint'] + pap['bPoint'] + pap['cPoint'];
                     }
                     this.tableData = json;
                     this.loading = false;

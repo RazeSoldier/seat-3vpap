@@ -41,7 +41,7 @@ class ApiCorpController extends Controller
                     $resp[$pap->characterName]['noesi'] = true;
                     $resp[$pap->characterName]['characterName'] = $pap->characterName;
                 }
-                self::sumPap($resp[$pap->characterName], $pap->fleetType, $pap->PAP);
+                self::sumPap($resp[$pap->characterName], $pap->PAP);
             } else {
                 $user = User::find($pap->character->character_id);
                 $mc = $user->group->main_character;
@@ -56,7 +56,7 @@ class ApiCorpController extends Controller
                     $resp[$mc->name]['groupId'] = $user->group->id;
                     $resp[$mc->name]['characterLinkCount'] = $user->group->users->count();
                 }
-                self::sumPap($resp[$mc->name], $pap->fleetType, $pap->PAP);
+                self::sumPap($resp[$mc->name], $pap->PAP);
             }
         }
         return array_values($resp);
@@ -65,26 +65,15 @@ class ApiCorpController extends Controller
     private static function initGroupPapArray() : array
     {
         return [
-            'aPoint' => 0,
-            'bPoint' => 0,
-            'cPoint' => 0,
+            'point' => 0,
             'characterLinkCount' => 1,
             'noesi' => false,
         ];
     }
 
-    private static function sumPap(array &$data, string $fleetType, int $point)
+    private static function sumPap(array &$data, int $point)
     {
-        switch ($fleetType) {
-            case 'A':
-                $data['aPoint'] += $point;
-                break;
-            case 'B':
-                $data['bPoint'] += $point;
-                break;
-            case 'C':
-                $data['cPoint'] += $point;
-        }
+        $data['point'] += $point;
     }
 
     private static function getLast30Days() : \DateTime
