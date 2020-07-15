@@ -41,10 +41,6 @@
                 '        prop="fleetFC"\n' +
                 '        label="{{__('pap::pap.pap-fleetFC')}}">' +
                 '</el-table-column>' +
-                '<el-table-column\n' +
-                '        prop="fleetType"\n' +
-                '        label="{{__('pap::pap.pap-fleetType')}}">' +
-                '</el-table-column>' +
                 '</el-table>' +
                 '<el-pagination\n' +
                 '    layout="total, sizes, prev, pager, next, jumper"\n' +
