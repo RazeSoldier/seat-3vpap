@@ -31,7 +31,7 @@
                 '</el-table-column>' +
                 '<el-table-column\n' +
                 '        prop="fleetTime"\n' +
-                '        label="{{__('pap::pap.pap-fleetNote')}}">' +
+                '        label="{{__('pap::pap.pap-fleetTime')}}">' +
                 '</el-table-column>' +
                 '<el-table-column\n' +
                 '        prop="PAP"\n' +
