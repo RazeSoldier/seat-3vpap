@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 use PhpOffice\PhpSpreadsheet\{
     Spreadsheet,
-    Writer\Xls,
+    Writer\Xls
 };
 use RazeSoldier\Seat3VPap\Model\Pap;
 use Seat\Eveapi\Models\{
