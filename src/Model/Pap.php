@@ -3,10 +3,12 @@
 namespace RazeSoldier\Seat3VPap\Model;
 
 use Illuminate\Database\Eloquent\{
+    Collection,
     Model,
     Relations\BelongsTo
 };
 use Seat\Eveapi\Models\Character\CharacterInfo;
+use Seat\Eveapi\Models\Corporation\CorporationInfo;
 
 /**
  * @property string characterName
@@ -36,6 +38,21 @@ class Pap extends Model
             ['characterName', $characterInfo->name],
             ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
         ])->get()->sum('PAP');
+    }
+
+    /**
+     * Get the corporation's PAP for the last 30 days
+     *
+     * @param int $corpId
+     * @return Collection PAP
+     */
+    public static function getCorporationPapById(int $corpId) : Collection
+    {
+        $corpName = CorporationInfo::find($corpId)->name;
+        return self::where([
+            ['corpName', $corpName],
+            ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')]
+        ])->get();
     }
 
     /**

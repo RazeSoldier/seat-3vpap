@@ -18,37 +18,45 @@
 @endsection
 
 @php
-
 $characterNameLabel = __('pap::pap.pap-characterName');
 $characterLinkCountLabel = __('pap::pap.linked-count');
+$exportLink = route('pap.corp-execl', ['id' => $corpId]);
+$exportLabel = __('pap::pap.export');
 $template = <<<TEXT
-<el-table
-    :data="tableData"
-    v-loading="loading"
-    stripe
-    :default-sort = "{prop: 'point', order: 'descending'}">
-    <el-table-column
-        prop="characterName"
-        label="$characterNameLabel"
-        width="210"
-        sortable>
-        <template slot-scope="scope">
-            <el-link :href="scope.row.link" type="primary" :disabled="scope.row.noesi">{{ scope.row.characterName }}</el-link>
-        </template>
-    </el-table-column>
-    <el-table-column
-        prop="characterLinkCount"
-        label="$characterLinkCountLabel"
-        width="200"
-        sortable>
-    </el-table-column>
-    <el-table-column
-        prop="point"
-        label="PAP"
-        width="auto"
-        sortable>
-    </el-table-column>
-</el-table>
+<div>
+    <el-row>
+        <el-link href="$exportLink" target="_blank" :underline="false">
+            <el-button type="primary" size="small" round>$exportLabel</el-button>
+        </el-link>
+    </el-row>
+    <el-table
+        :data="tableData"
+        v-loading="loading"
+        stripe
+        :default-sort = "{prop: 'point', order: 'descending'}">
+        <el-table-column
+            prop="characterName"
+            label="$characterNameLabel"
+            width="210"
+            sortable>
+            <template slot-scope="scope">
+                <el-link :href="scope.row.link" type="primary" :disabled="scope.row.noesi">{{ scope.row.characterName }}</el-link>
+            </template>
+        </el-table-column>
+        <el-table-column
+            prop="characterLinkCount"
+            label="$characterLinkCountLabel"
+            width="200"
+            sortable>
+        </el-table-column>
+        <el-table-column
+            prop="point"
+            label="PAP"
+            width="auto"
+            sortable>
+        </el-table-column>
+    </el-table>
+</div>
 TEXT;
 @endphp
 
@@ -88,4 +96,12 @@ TEXT;
         });
         new Vue({el: '#vue'});
     </script>
+@endpush
+
+@push('head')
+    <style>
+        .el-row {
+            margin-bottom: 10px;
+        }
+    </style>
 @endpush

@@ -18,7 +18,5 @@ return [
     'member-pap' => '成员出勤',
     'month-ping' => '30天内的集结',
     'linked-count' => '绑定的角色数',
-    'aPoint' => 'A分',
-    'bPoint' => 'B分',
-    'cPoint' => 'C分',
+    'export' => '导出为表格',
 ];

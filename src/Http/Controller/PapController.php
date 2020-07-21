@@ -4,6 +4,10 @@ namespace RazeSoldier\Seat3VPap\Http\Controller;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
+use PhpOffice\PhpSpreadsheet\{
+    Spreadsheet,
+    Writer\Xls,
+};
 use RazeSoldier\Seat3VPap\Model\Pap;
 use Seat\Eveapi\Models\{
     Character\CharacterInfo,
@@ -76,6 +80,39 @@ class PapController extends Controller
             'title' => $corp->name . __('pap::pap.pap-title-suffix'),
             'corpId' => $id,
         ]);
+    }
+
+    /**
+     * Route: /pap/download/corp/{id}
+     */
+    public function downloadCorpPapExecl($id)
+    {
+        $ss = new Spreadsheet();
+        $sheet = $ss->getActiveSheet();
+        // Set headers
+        $sheet->setCellValue('A1', 'characterName');
+        $sheet->setCellValue('B1', 'corpName');
+        $sheet->setCellValue('C1', 'PAP');
+        $sheet->setCellValue('D1', 'fleetFC');
+        $sheet->setCellValue('E1', 'fleetTime');
+        $sheet->setCellValue('F1', 'fleetNote');
+
+        $paps = Pap::getCorporationPapById($id);
+        $i = 1;
+        foreach ($paps as $pap) {
+            $i++;
+            $sheet->setCellValue("A$i", $pap->characterName);
+            $sheet->setCellValue("B$i", $pap->corpName);
+            $sheet->setCellValue("C$i", $pap->PAP);
+            $sheet->setCellValue("D$i", $pap->fleetFC);
+            $sheet->setCellValue("E$i", $pap->fleetTime);
+            $sheet->setCellValue("F$i", $pap->fleetNote);
+        }
+
+        $writer = new Xls($ss);
+        $tempFilePath = tempnam(sys_get_temp_dir(), 'seat-3vpap');
+        $writer->save($tempFilePath);
+        return response()->download($tempFilePath, "pap-corp-$id.xls");
     }
 
     private function getGroupPap() : int

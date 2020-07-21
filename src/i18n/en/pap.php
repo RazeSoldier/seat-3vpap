@@ -18,7 +18,5 @@ return [
     'member-pap' => 'Member PAP',
     'month-ping' => 'CTA of Last 30 days',
     'linked-count' => 'Linked Character Count',
-    'aPoint' => 'A Point',
-    'bPoint' => 'B Point',
-    'cPoint' => 'C Point',
+    'export' => 'Export as excel',
 ];
