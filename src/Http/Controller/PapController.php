@@ -123,7 +123,7 @@ class PapController extends Controller
             if ($user->name === 'admin') {
                 continue;
             }
-            $point += Pap::getCharacterPap(CharacterInfo::find($user->id));
+            $point += Pap::getCharacterPap($user->name);
         }
         return $point;
     }

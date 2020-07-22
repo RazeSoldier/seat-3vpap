@@ -29,13 +29,13 @@ class Pap extends Model
     /**
      * Get the character's PAP for the last 30 days
      *
-     * @param CharacterInfo $characterInfo
+     * @param string $name
      * @return int PAP
      */
-    public static function getCharacterPap(CharacterInfo $characterInfo) : int
+    public static function getCharacterPap(string $name) : int
     {
         return self::where([
-            ['characterName', $characterInfo->name],
+            ['characterName', $name],
             ['fleetTime', '>', self::getLast30Days()->format('Y-m-d H:i:s')],
         ])->get()->sum('PAP');
     }
