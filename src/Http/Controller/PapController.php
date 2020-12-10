@@ -4,6 +4,7 @@ namespace RazeSoldier\Seat3VPap\Http\Controller;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
+use RazeSoldier\Seat3VPap\Helper;
 use PhpOffice\PhpSpreadsheet\{
     Spreadsheet,
     Writer\Xls
@@ -15,16 +16,20 @@ use Seat\Eveapi\Models\{
 };
 use Seat\Services\Models\UserSetting;
 use Seat\Web\Http\Controllers\Controller;
-use Seat\Web\Models\{
-    Group,
-    User
-};
+use Seat\Web\Models\User;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PapController extends Controller
 {
+	use Helper;
+
+	/**
+	 * @Route("/pap", name="pap.home", methods={"GET"})
+	 */
     public function showMainPage()
     {
-        $isAdmin = auth()->user()->has('pap.admin', false);
+        $isAdmin = auth()->user()->can('pap.admin');
+
         if ($isAdmin) {
             $corpList = CorporationInfo::all();
             /** @var CorporationInfo $corp */
@@ -42,30 +47,35 @@ class PapController extends Controller
             $corpList = [];
         }
         return view('pap::page', [
-            'isAdmin' => auth()->user()->has('pap.admin', false),
-            'point' => $this->getGroupPap(),
-            'gid' => auth()->user()->group_id,
+            'isAdmin' => $isAdmin,
+            'point' => $this->getUserPap(),
+            'uid' => auth()->user()->id,
             'corpList' => $corpList,
             'ctaCount' => Pap::getCTACount(),
         ]);
     }
 
-    public function showGroupPap(int $gid)
+	/**
+	 * @Route("/pap/group/{user_id}", name="pap.pap", methods={"GET"})
+	 */
+    public function showGroupPap(int $userId)
     {
         // Non-admin cannot access other people's PAP record
-        if ($gid !== auth()->user()->group_id && !auth()->user()->has('pap.admin', false)) {
+	    $user = auth()->user();
+	    if (!$this->checkPermission($userId)) {
             abort(404);
         }
-        Group::findOrFail($gid); // Checks group exists
-        $users = Group::find($gid)->users()->getResults()->all();
-        /** @var Collection[] $paps */
-        $paps = [];
-        foreach ($users as $user) {
-            $paps = array_merge($paps, Pap::where('characterName', $user->name)->get()->all());
-        }
+        User::findOrFail($userId); // Checks user exists
+
+	    /** @var Collection|Pap[] $paps */
+	    $paps = [];
+        $user->characters->each(function (CharacterInfo $character) use (&$paps) {
+        	$paps = array_merge($paps, Pap::where('characterName', $character->name)->get()->toArray());
+        });
+
         return view('pap::pap', [
-            'title' => $gid === auth()->user()->group_id ? __('pap::pap.myPap-title') : $this->getMainCharacter($gid)->name . __('pap::pap.pap-title-suffix'),
-            'groupId' => $gid,
+            'title' => $userId === $user->id ? __('pap::pap.myPap-title') : $this->getMainCharacter($user)->name . __('pap::pap.pap-title-suffix'),
+            'groupId' => $userId,
         ]);
     }
 
@@ -115,25 +125,13 @@ class PapController extends Controller
         return response()->download($tempFilePath, "pap-corp-$id.xls");
     }
 
-    private function getGroupPap() : int
+    private function getUserPap(): int
     {
-        $users = $this->getLinkedUsers();
-        $point = 0;
-        foreach ($users as $user) {
-            if ($user->name === 'admin') {
-                continue;
-            }
-            $point += Pap::getCharacterPap($user->name);
-        }
-        return $point;
-    }
-
-    /**
-     * @return User[]
-     */
-    private function getLinkedUsers() : array
-    {
-        return auth()->user()->group()->getResults()->users()->getResults()->all();
+	    $point = 0;
+    	auth()->user()->characters->each(function (CharacterInfo $character) use (&$point) {
+		    $point += Pap::getCharacterPap($character->name);
+	    });
+    	return $point;
     }
 
     private function getMainCharacter($gid) :? CharacterInfo

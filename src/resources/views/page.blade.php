@@ -5,11 +5,11 @@
 
 @if($isAdmin)
 @section('left')
-    <div class="box box-solid">
-        <div class="box-header">
-            <h3 class="box-title">{{__('pap::pap.corpList')}}</h3>
+    <div class="card card-solid">
+        <div class="card-header">
+            <h3 class="card-title">{{__('pap::pap.corpList')}}</h3>
         </div>
-        <div class="box-body">
+        <div class="card-body">
             <table class="table table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -38,12 +38,12 @@
 @endif
 
 @section('right')
-    <div class="box box-primary box-solid">
-        <div class="box-header">
-            <h3 class="box-title">{{__('pap::pap.myPap')}}</h3>
-            <a class="box-tools" href="{{route('pap.pap', ['id' => $gid])}}">{{__('pap::pap.link-mypap')}}</a>
+    <div class="card card-primary card-solid">
+        <div class="card-header">
+            <h3 class="card-title">{{__('pap::pap.myPap')}}</h3>
+            <a class="card-tools" href="{{route('pap.pap', ['id' => $uid])}}">{{__('pap::pap.link-mypap')}}</a>
         </div>
-        <div class="box-body">
+        <div class="card-body">
             <table class="table table-condensed">
                 <tr>
                     <th class="bg-primary"><label class="label pull-right" style="font-size: 100%">PAP</label></th>
@@ -53,11 +53,11 @@
         </div>
     </div>
 
-    <div class="box box-solid">
-        <div class="box-header">
-            <h3 class="box-title">{{__('pap::pap.month-ping')}}</h3>
+    <div class="card card-solid">
+        <div class="card-header">
+            <h3 class="card-title">{{__('pap::pap.month-ping')}}</h3>
         </div>
-        <div class="box-body">
+        <div class="card-body">
             <table class="table table-condensed">
                 <tr>
                     <th class="bg-primary"><label class="label pull-right" style="font-size: 100%">Count</label></th>

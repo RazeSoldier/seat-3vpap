@@ -3,18 +3,22 @@
 namespace RazeSoldier\Seat3VPap\Http\Controller;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use RazeSoldier\Seat3VPap\Model\Pap;
 use Seat\Eveapi\Models\Corporation\CorporationInfo;
 use Seat\Web\Http\Controllers\Controller;
-use Seat\Web\Models\User;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ApiCorpController extends Controller
 {
-    /**
-     * Returns JSON data that PAP in the last 30 days
-     * @param int $id The corporation id
-     */
-    public function getCorpMemberPap(int $id) {
+	/**
+	 * Returns JSON data that PAP in the last 30 days
+	 * @Route("/pap/api/corp/{id}", name="pap.get-corppap", methods={"GET"})
+	 * @param int $id The corporation id
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+    public function getCorpMemberPap(int $id): JsonResponse
+    {
         try {
             $corp = CorporationInfo::findOrFail($id); // Checks corporation exists
         } catch (ModelNotFoundException $e) {
@@ -43,23 +47,23 @@ class ApiCorpController extends Controller
                 }
                 self::sumPap($resp[$pap->characterName], $pap->PAP);
             } else {
-                $user = User::find($pap->character->character_id);
-                $mc = $user->group->main_character;
+                $user = $pap->character->user;
+                $mc = $user->main_character;
                 if ($mc === null) {
                     // Means cannot find main character from user_settings,
                     // so default is the first character in the group.
-                    $mc = $user->group->users->first()->character; // Fallback main character
+                    $mc = $user->characters->first->get(); // Fallback main character
                 }
                 if (!isset($resp[$mc->name])) {
                     $resp[$mc->name] = self::initGroupPapArray();
                     $resp[$mc->name]['characterName'] = $mc->name;
-                    $resp[$mc->name]['groupId'] = $user->group->id;
-                    $resp[$mc->name]['characterLinkCount'] = $user->group->users->count();
+                    $resp[$mc->name]['groupId'] = $user->id;
+                    $resp[$mc->name]['characterLinkCount'] = $user->characters->count();
                 }
                 self::sumPap($resp[$mc->name], $pap->PAP);
             }
         }
-        return array_values($resp);
+        return response()->json(array_values($resp));
     }
 
     private static function initGroupPapArray() : array

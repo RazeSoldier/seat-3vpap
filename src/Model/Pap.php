@@ -12,7 +12,7 @@ use Seat\Eveapi\Models\Corporation\CorporationInfo;
 
 /**
  * @property string characterName
- * @property BelongsTo|null character
+ * @property CharacterInfo|null character
  * @property string fleetType
  * @property int PAP
  */
