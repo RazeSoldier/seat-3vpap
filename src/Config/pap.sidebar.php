@@ -4,7 +4,7 @@ return [
     'pap' => [
         'name' => 'PAP',
         'route_segment' => 'pap',
-        'icon' => 'fa-user',
+        'icon' => 'fas fa-user',
         'label' => 'PAP',
         'permission' => 'srp.request',
         'entries' => [
