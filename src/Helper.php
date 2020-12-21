@@ -7,6 +7,6 @@ trait Helper
 	private function checkPermission($targetUid): bool
 	{
 		$user = auth()->user();
-		return $targetUid === $user->id && $user->can('pap.admin');
+		return $targetUid === $user->id || $user->can('pap.admin');
 	}
 }
