@@ -73,7 +73,7 @@ class PapController extends Controller
         });
 
         return view('pap::pap', [
-            'title' => $userId === $user->id ? __('pap::pap.myPap-title') : $this->getMainCharacter($user)->name . __('pap::pap.pap-title-suffix'),
+            'title' => $userId === $user->id ? __('pap::pap.myPap-title') : $this->getMainCharacter($userId)->name . __('pap::pap.pap-title-suffix'),
             'groupId' => $userId,
         ]);
     }
@@ -133,8 +133,8 @@ class PapController extends Controller
     	return $point;
     }
 
-    private function getMainCharacter(User $user) :? CharacterInfo
+    private function getMainCharacter(int $uid): CharacterInfo
     {
-        return $user->main_character;
+    	return User::find($uid)->main_character;
     }
 }
