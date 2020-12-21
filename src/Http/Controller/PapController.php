@@ -133,8 +133,8 @@ class PapController extends Controller
     	return $point;
     }
 
-    private function getMainCharacter($gid) :? CharacterInfo
+    private function getMainCharacter(User $user) :? CharacterInfo
     {
-        return User::find($gid)->main_character;
+        return $user->main_character;
     }
 }
