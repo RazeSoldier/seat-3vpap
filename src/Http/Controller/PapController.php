@@ -14,7 +14,6 @@ use Seat\Eveapi\Models\{
     Character\CharacterInfo,
     Corporation\CorporationInfo
 };
-use Seat\Services\Models\UserSetting;
 use Seat\Web\Http\Controllers\Controller;
 use Seat\Web\Models\User;
 use Symfony\Component\Routing\Annotation\Route;
@@ -136,17 +135,6 @@ class PapController extends Controller
 
     private function getMainCharacter($gid) :? CharacterInfo
     {
-        $userSetting = UserSetting::where([
-            'group_id' => $gid,
-            'name' => 'main_character_id'
-        ])->first();
-        if ($userSetting === null) {
-            return null;
-        }
-        $uid = $userSetting->value;
-        if ($uid === null) {
-            return null;
-        }
-        return CharacterInfo::find($uid);
+        return User::find($gid)->main_character;
     }
 }
